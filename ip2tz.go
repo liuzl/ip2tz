@@ -10,11 +10,7 @@ var (
 	ErrNoTzFound = errors.New("no timezone found for this ip")
 )
 
-func Find(ip string) (string, error) {
-	country, err := ip2loc.Find(ip)
-	if err != nil {
-		return "", err
-	}
+func CountryToTz(country string) (string, error) {
 	switch country {
 	case "US":
 		return "America/New_York", nil
@@ -28,4 +24,12 @@ func Find(ip string) (string, error) {
 		}
 		return tz[0], nil
 	}
+}
+
+func Find(ip string) (string, error) {
+	country, err := ip2loc.Find(ip)
+	if err != nil {
+		return "", err
+	}
+	return CountryToTz(country)
 }

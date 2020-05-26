@@ -2,8 +2,9 @@ package ip2tz
 
 import (
 	"errors"
+
+	"github.com/crawlerclub/phonenumbers"
 	"github.com/liuzl/ip2loc"
-	"github.com/ttacon/libphonenumber"
 )
 
 var (
@@ -17,8 +18,8 @@ func CountryToTz(country string) (string, error) {
 	case "CN":
 		return "Asia/Shanghai", nil
 	default:
-		cc := libphonenumber.GetCountryCodeForRegion(country)
-		tz, ok := libphonenumber.CountryCodeToTimeZones[cc]
+		cc := phonenumbers.GetCountryCodeForRegion(country)
+		tz, ok := phonenumbers.PrefixToTimezone[cc]
 		if !ok || len(tz) == 0 {
 			return "", ErrNoTzFound
 		}
